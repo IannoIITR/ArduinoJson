@@ -260,10 +260,6 @@ class VariantData {
     return _content.asCollection;
   }
 
-  CollectionData *promoteToObject() {
-    return isNull() ? &toObject() : asObject();
-  }
-
   size_t memoryUsage() const {
     switch (type()) {
       case VALUE_IS_OWNED_STRING:
@@ -293,6 +289,21 @@ class VariantData {
       return _content.asCollection.size();
     else
       return 0;
+  }
+
+  template <typename TKey>
+  VariantData *get(TKey key) const {
+    if (type() != VALUE_IS_OBJECT) return 0;
+    return _content.asCollection.get(key);
+  }
+
+  template <typename TKey>
+  VariantData *getOrCreate(TKey key, MemoryPool *pool) {
+    if (isNull()) toObject();
+    if (type() != VALUE_IS_OBJECT) return 0;
+    VariantData *var = _content.asCollection.get(key);
+    if (var) return var;
+    return _content.asCollection.add(key, pool);
   }
 
  private:

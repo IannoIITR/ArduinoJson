@@ -132,24 +132,34 @@ inline VariantConstRef VariantConstRef::operator[](size_t index) const {
 
 template <typename TKey>
 VariantRef VariantRef::get(TKey *key) const {
-  return as<ObjectRef>().get(key);
+  return VariantRef(_pool, _data != 0 ? _data->get(wrapString(key)) : 0);
 }
 
 template <typename TKey>
 VariantRef VariantRef::get(const TKey &key) const {
-  return as<ObjectRef>().get(key);
+  return VariantRef(_pool, _data != 0 ? _data->get(wrapString(key)) : 0);
+}
+
+template <typename TKey>
+NO_INLINE VariantData *variantGetOrCreate(VariantData *var, TKey *key,
+                                          MemoryPool *pool) {
+  return var != 0 ? var->getOrCreate(wrapString(key), pool) : 0;
+}
+
+template <typename TKey>
+NO_INLINE VariantData *variantGetOrCreate(VariantData *var, const TKey &key,
+                                          MemoryPool *pool) {
+  return var != 0 ? var->getOrCreate(wrapString(key), pool) : 0;
 }
 
 template <typename TKey>
 VariantRef VariantRef::getOrCreate(TKey *key) const {
-  ObjectRef obj = isNull() ? to<ObjectRef>() : as<ObjectRef>();
-  return obj.getOrCreate(key);
+  return VariantRef(_pool, variantGetOrCreate(_data, key, _pool));
 }
 
 template <typename TKey>
 VariantRef VariantRef::getOrCreate(const TKey &key) const {
-  ObjectRef obj = isNull() ? to<ObjectRef>() : as<ObjectRef>();
-  return obj.getOrCreate(key);
+  return VariantRef(_pool, variantGetOrCreate(_data, key, _pool));
 }
 
 }  // namespace ARDUINOJSON_NAMESPACE
