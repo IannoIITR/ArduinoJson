@@ -281,6 +281,8 @@ class VariantRef : public VariantRefBase<VariantData>,
   typename enable_if<is_same<T, VariantRef>::value, VariantRef>::type to()
       const;
 
+  VariantRef add() const;
+
   VariantRef get(size_t) const;
 
   template <typename TKey>

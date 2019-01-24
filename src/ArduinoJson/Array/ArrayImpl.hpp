@@ -13,7 +13,8 @@ inline ArrayRef ArrayRef::createNestedArray() const {
   return add().to<ArrayRef>();
 }
 
-inline ObjectRef ArrayRef::createNestedObject() const {
-  return add().to<ObjectRef>();
+template <typename TImpl>
+inline ObjectRef ArrayShortcuts<TImpl>::createNestedObject() const {
+  return impl()->template add().template to<ObjectRef>();
 }
 }  // namespace ARDUINOJSON_NAMESPACE

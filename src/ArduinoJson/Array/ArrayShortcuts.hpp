@@ -18,6 +18,8 @@ class ArrayShortcuts {
   // Returns the element at specified index if the variant is an array.
   FORCE_INLINE ElementProxy<TImpl> operator[](size_t index) const;
 
+  FORCE_INLINE ObjectRef createNestedObject() const;
+
  private:
   const TImpl *impl() const {
     return static_cast<const TImpl *>(this);

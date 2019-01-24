@@ -191,7 +191,6 @@ class ArrayRef : public ArrayRefBase<CollectionData>,
   }
 
   FORCE_INLINE ArrayRef createNestedArray() const;
-  FORCE_INLINE ObjectRef createNestedObject() const;
 
   FORCE_INLINE bool operator==(ArrayRef rhs) const {
     return arrayEquals(_data, rhs._data);

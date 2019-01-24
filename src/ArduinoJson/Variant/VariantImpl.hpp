@@ -130,6 +130,10 @@ inline VariantConstRef VariantConstRef::operator[](size_t index) const {
   return ArrayConstRef(_data != 0 ? _data->asArray() : 0)[index];
 }
 
+inline VariantRef VariantRef::add() const {
+  return VariantRef(_pool, variantAdd(_data, _pool));
+}
+
 inline VariantRef VariantRef::get(size_t index) const {
   return VariantRef(_pool, _data != 0 ? _data->get(index) : 0);
 }
@@ -145,18 +149,6 @@ VariantRef VariantRef::get(const TKey &key) const {
 }
 
 template <typename TKey>
-NO_INLINE VariantData *variantGetOrCreate(VariantData *var, TKey *key,
-                                          MemoryPool *pool) {
-  return var != 0 ? var->getOrCreate(wrapString(key), pool) : 0;
-}
-
-template <typename TKey>
-NO_INLINE VariantData *variantGetOrCreate(VariantData *var, const TKey &key,
-                                          MemoryPool *pool) {
-  return var != 0 ? var->getOrCreate(wrapString(key), pool) : 0;
-}
-
-template <typename TKey>
 VariantRef VariantRef::getOrCreate(TKey *key) const {
   return VariantRef(_pool, variantGetOrCreate(_data, key, _pool));
 }
@@ -165,5 +157,4 @@ template <typename TKey>
 VariantRef VariantRef::getOrCreate(const TKey &key) const {
   return VariantRef(_pool, variantGetOrCreate(_data, key, _pool));
 }
-
 }  // namespace ARDUINOJSON_NAMESPACE

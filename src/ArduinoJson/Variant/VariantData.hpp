@@ -311,6 +311,12 @@ class VariantData {
     return _content.asCollection.add(key, pool);
   }
 
+  VariantData *add(MemoryPool *pool) {
+    if (isNull()) toArray();
+    if (type() != VALUE_IS_ARRAY) return 0;
+    return _content.asCollection.add(pool);
+  }
+
  private:
   uint8_t type() const {
     return _flags & VALUE_MASK;
