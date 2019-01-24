@@ -30,3 +30,11 @@ TEST_CASE("JsonDocument::operator[]") {
     REQUIRE(cdoc[1] == "world");
   }
 }
+
+TEST_CASE("JsonDocument automatically promotes to object") {
+  DynamicJsonDocument doc(4096);
+
+  doc["one"]["two"]["three"] = 4;
+
+  REQUIRE(doc["one"]["two"]["three"] == 4);
+}
