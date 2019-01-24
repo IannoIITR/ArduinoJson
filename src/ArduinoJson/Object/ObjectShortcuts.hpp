@@ -12,22 +12,33 @@ namespace ARDUINOJSON_NAMESPACE {
 template <typename TParent, typename TKey>
 class MemberProxy;
 
-template <typename TImpl>
+template <typename TObject>
 class ObjectShortcuts {
  public:
   // MemberProxy operator[](TKey) const;
   // TKey = const std::string&, const String&
   template <typename TKey>
   FORCE_INLINE typename enable_if<IsString<TKey>::value,
-                                  MemberProxy<TImpl, const TKey &> >::type
+                                  MemberProxy<TObject, const TKey &> >::type
   operator[](const TKey &key) const;
   //
   // MemberProxy operator[](TKey) const;
   // TKey = const char*, const char[N], const __FlashStringHelper*
   template <typename TKey>
   FORCE_INLINE typename enable_if<IsString<TKey *>::value,
-                                  MemberProxy<TImpl, TKey *> >::type
+                                  MemberProxy<TObject, TKey *> >::type
   operator[](TKey *key) const;
+
+  // Creates and adds a ArrayRef.
+  //
+  // ArrayRef createNestedArray(TKey);
+  // TKey = const std::string&, const String&
+  template <typename TKey>
+  FORCE_INLINE ArrayRef createNestedArray(const TKey &key) const;
+  // ArrayRef createNestedArray(TKey);
+  // TKey = char*, const char*, char[], const char[], const __FlashStringHelper*
+  template <typename TKey>
+  FORCE_INLINE ArrayRef createNestedArray(TKey *key) const;
 
   // Creates and adds a ObjectRef.
   //
@@ -42,8 +53,8 @@ class ObjectShortcuts {
   ObjectRef createNestedObject(TKey *key) const;
 
  private:
-  const TImpl *impl() const {
-    return static_cast<const TImpl *>(this);
+  const TObject *impl() const {
+    return static_cast<const TObject *>(this);
   }
 };
 }  // namespace ARDUINOJSON_NAMESPACE

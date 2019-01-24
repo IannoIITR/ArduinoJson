@@ -24,7 +24,7 @@ class ElementProxy : public VariantOperators<ElementProxy<TArray> >,
       : _array(array), _index(index) {}
 
   FORCE_INLINE this_type& operator=(const this_type& src) {
-    get_impl().set(src.as<VariantConstRef>());
+    getElement().set(src.as<VariantConstRef>());
     return *this;
   }
 
@@ -35,7 +35,7 @@ class ElementProxy : public VariantOperators<ElementProxy<TArray> >,
   //          std::string, String, ArrayRef, ObjectRef
   template <typename T>
   FORCE_INLINE this_type& operator=(const T& src) {
-    get_impl().set(src);
+    getElement().set(src);
     return *this;
   }
   //
@@ -43,27 +43,27 @@ class ElementProxy : public VariantOperators<ElementProxy<TArray> >,
   // TValue = char*, const char*, const __FlashStringHelper*
   template <typename T>
   FORCE_INLINE this_type& operator=(T* src) {
-    get_impl().set(src);
+    getElement().set(src);
     return *this;
   }
 
   FORCE_INLINE bool isNull() const {
-    return get_impl().isNull();
+    return getElement().isNull();
   }
 
   template <typename T>
   FORCE_INLINE typename VariantAs<T>::type as() const {
-    return get_impl().as<T>();
+    return getElement().as<T>();
   }
 
   template <typename T>
   FORCE_INLINE bool is() const {
-    return get_impl().is<T>();
+    return getElement().is<T>();
   }
 
   template <typename T>
   FORCE_INLINE typename VariantTo<T>::type to() const {
-    return get_impl().to<T>();
+    return getElement().to<T>();
   }
 
   // Replaces the value
@@ -73,47 +73,47 @@ class ElementProxy : public VariantOperators<ElementProxy<TArray> >,
   //          std::string, String, ArrayRef, ObjectRef
   template <typename TValue>
   FORCE_INLINE bool set(const TValue& value) const {
-    return get_impl().set(value);
+    return getElement().set(value);
   }
   //
   // bool set(TValue)
   // TValue = char*, const char*, const __FlashStringHelper*
   template <typename TValue>
   FORCE_INLINE bool set(TValue* value) const {
-    return get_impl().set(value);
+    return getElement().set(value);
   }
 
   template <typename Visitor>
   void accept(Visitor& visitor) const {
-    return get_impl().accept(visitor);
+    return getElement().accept(visitor);
   }
 
   FORCE_INLINE size_t size() const {
-    return get_impl().size();
+    return getElement().size();
   }
 
   template <typename TNestedKey>
   VariantRef get(TNestedKey* key) const {
-    return get_impl().get(key);
+    return getElement().get(key);
   }
 
   template <typename TNestedKey>
   VariantRef get(const TNestedKey& key) const {
-    return get_impl().get(key);
+    return getElement().get(key);
   }
 
   template <typename TNestedKey>
   VariantRef getOrCreate(TNestedKey* key) const {
-    return get_impl().getOrCreate(key);
+    return getElement().getOrCreate(key);
   }
 
   template <typename TNestedKey>
   VariantRef getOrCreate(const TNestedKey& key) const {
-    return get_impl().getOrCreate(key);
+    return getElement().getOrCreate(key);
   }
 
  private:
-  FORCE_INLINE VariantRef get_impl() const {
+  FORCE_INLINE VariantRef getElement() const {
     return _array.get(_index);
   }
 

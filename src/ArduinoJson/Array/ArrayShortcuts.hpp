@@ -12,19 +12,19 @@ namespace ARDUINOJSON_NAMESPACE {
 template <typename>
 class ElementProxy;
 
-template <typename TImpl>
+template <typename TArray>
 class ArrayShortcuts {
  public:
   // Returns the element at specified index if the variant is an array.
-  FORCE_INLINE ElementProxy<TImpl> operator[](size_t index) const;
+  FORCE_INLINE ElementProxy<TArray> operator[](size_t index) const;
 
   FORCE_INLINE ObjectRef createNestedObject() const;
 
   FORCE_INLINE ArrayRef createNestedArray() const;
 
  private:
-  const TImpl *impl() const {
-    return static_cast<const TImpl *>(this);
+  const TArray *impl() const {
+    return static_cast<const TArray *>(this);
   }
 };
 }  // namespace ARDUINOJSON_NAMESPACE

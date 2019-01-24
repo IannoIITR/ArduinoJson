@@ -9,13 +9,15 @@
 
 namespace ARDUINOJSON_NAMESPACE {
 
-template <typename TImpl>
-class VariantShortcuts : public ObjectShortcuts<TImpl>,
-                         public ArrayShortcuts<TImpl> {
+template <typename TVariant>
+class VariantShortcuts : public ObjectShortcuts<TVariant>,
+                         public ArrayShortcuts<TVariant> {
  public:
-  using ObjectShortcuts<TImpl>::operator[];
-  using ObjectShortcuts<TImpl>::createNestedObject;
-  using ArrayShortcuts<TImpl>::operator[];
-  using ArrayShortcuts<TImpl>::createNestedObject;
+  using ArrayShortcuts<TVariant>::createNestedArray;
+  using ArrayShortcuts<TVariant>::createNestedObject;
+  using ArrayShortcuts<TVariant>::operator[];
+  using ObjectShortcuts<TVariant>::createNestedArray;
+  using ObjectShortcuts<TVariant>::createNestedObject;
+  using ObjectShortcuts<TVariant>::operator[];
 };
 }  // namespace ARDUINOJSON_NAMESPACE
