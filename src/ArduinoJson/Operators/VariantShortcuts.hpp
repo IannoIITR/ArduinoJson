@@ -10,8 +10,8 @@
 namespace ARDUINOJSON_NAMESPACE {
 
 template <typename TImpl>
-class VariantSubscripts : public ObjectShortcuts<TImpl>,
-                          public ArrayShortcuts<TImpl> {
+class VariantShortcuts : public ObjectShortcuts<TImpl>,
+                         public ArrayShortcuts<TImpl> {
  public:
   using ObjectShortcuts<TImpl>::operator[];
   using ObjectShortcuts<TImpl>::createNestedObject;

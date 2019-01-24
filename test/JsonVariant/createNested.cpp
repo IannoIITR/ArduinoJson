@@ -59,4 +59,11 @@ TEST_CASE("JsonVariant::createNestedObject(key)") {
     REQUIRE(variant.is<JsonObject>() == true);
     REQUIRE(variant["weather"]["temp"] == 42);
   }
+
+  SECTION("works on MemberProxy") {
+    JsonObject obj = variant["status"].createNestedObject("weather");
+    obj["temp"] = "42";
+
+    REQUIRE(variant["status"]["weather"]["temp"] == 42);
+  }
 }
