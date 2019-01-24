@@ -103,7 +103,7 @@ class VariantMemberProxy
   }
 
   FORCE_INLINE VariantRef set_impl() const {
-    return _variant.setElement(_key);
+    return _variant.promoteToObject().set(_key);
   }
 
   VariantRef _variant;

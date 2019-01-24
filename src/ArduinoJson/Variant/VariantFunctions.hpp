@@ -146,11 +146,4 @@ inline CollectionData *variantToObject(VariantData *var) {
   return &var->toObject();
 }
 
-template <typename TKey>
-inline VariantData *variantSetElement(VariantData *var, TKey key,
-                                      MemoryPool *pool) {
-  if (!var) return 0;
-  return var->getOrCreateChild(key, pool);
-}
-
 }  // namespace ARDUINOJSON_NAMESPACE

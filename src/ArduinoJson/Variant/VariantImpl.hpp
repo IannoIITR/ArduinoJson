@@ -129,8 +129,7 @@ inline VariantConstRef VariantConstRef::operator[](size_t index) const {
   return ArrayConstRef(_data != 0 ? _data->asArray() : 0)[index];
 }
 
-template <typename TKey>
-inline VariantRef VariantRef::setElement(TKey* key) const {
-  return VariantRef(_pool, variantSetElement(_data, wrapString(key), _pool));
+inline ObjectRef VariantRef::promoteToObject() const {
+  return ObjectRef(_pool, _data != 0 ? _data->promoteToObject() : 0);
 }
 }  // namespace ARDUINOJSON_NAMESPACE
