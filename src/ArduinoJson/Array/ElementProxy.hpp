@@ -127,9 +127,6 @@ inline ElementProxy<TImpl> ArrayShortcuts<TImpl>::operator[](
   return ElementProxy<TImpl>(*impl(), index);
 }
 
-inline ElementProxy<ArrayRef> ArrayRef::operator[](size_t index) const {
-  return ElementProxy<ArrayRef>(*this, index);
-}
 }  // namespace ARDUINOJSON_NAMESPACE
 
 #ifdef _MSC_VER

@@ -31,10 +31,6 @@ class ArrayRefBase {
     return _data == 0;
   }
 
-  FORCE_INLINE VariantConstRef operator[](size_t index) const {
-    return VariantConstRef(_data ? _data->get(index) : 0);
-  }
-
   FORCE_INLINE size_t memoryUsage() const {
     return _data ? _data->memoryUsage() : 0;
   }
@@ -75,9 +71,15 @@ class ArrayConstRef : public ArrayRefBase<const CollectionData>,
   FORCE_INLINE bool operator==(ArrayConstRef rhs) const {
     return arrayEquals(_data, rhs._data);
   }
+
+  FORCE_INLINE VariantConstRef operator[](size_t index) const {
+    return VariantConstRef(_data ? _data->get(index) : 0);
+  }
 };
 
-class ArrayRef : public ArrayRefBase<CollectionData>, public Visitable {
+class ArrayRef : public ArrayRefBase<CollectionData>,
+                 public ArrayShortcuts<ArrayRef>,
+                 public Visitable {
   typedef ArrayRefBase<CollectionData> base_type;
 
  public:
@@ -190,8 +192,6 @@ class ArrayRef : public ArrayRefBase<CollectionData>, public Visitable {
 
   FORCE_INLINE ArrayRef createNestedArray() const;
   FORCE_INLINE ObjectRef createNestedObject() const;
-
-  FORCE_INLINE ElementProxy<ArrayRef> operator[](size_t index) const;
 
   FORCE_INLINE bool operator==(ArrayRef rhs) const {
     return arrayEquals(_data, rhs._data);

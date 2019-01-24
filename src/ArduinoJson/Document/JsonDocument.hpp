@@ -122,7 +122,7 @@ class JsonDocument : public Visitable {
   }
 
   FORCE_INLINE VariantConstRef operator[](size_t index) const {
-    return getVariant()[index];
+    return VariantConstRef(_data.get(index));
   }
 
   FORCE_INLINE VariantRef get(size_t index) {
