@@ -7,7 +7,7 @@
 #include "../Configuration.hpp"
 #include "../Numbers/parseFloat.hpp"
 #include "../Numbers/parseInteger.hpp"
-#include "VariantMemberProxy.hpp"
+#include "MemberProxy.hpp"
 #include "VariantRef.hpp"
 
 #include <string.h>  // for strcmp
@@ -51,7 +51,7 @@ inline T VariantData::asFloat() const {
   }
 }
 
-inline const char* VariantData::asString() const {
+inline const char *VariantData::asString() const {
   switch (type()) {
     case VALUE_IS_LINKED_STRING:
     case VALUE_IS_OWNED_STRING:
@@ -69,7 +69,7 @@ inline bool VariantRef::set(ArrayConstRef array) const {
   return to<ArrayRef>().copyFrom(array);
 }
 
-inline bool VariantRef::set(const ArraySubscript& value) const {
+inline bool VariantRef::set(const ArraySubscript &value) const {
   return set(value.as<VariantRef>());
 }
 
@@ -82,7 +82,8 @@ inline bool VariantRef::set(ObjectConstRef object) const {
 }
 
 template <typename TString>
-inline bool VariantRef::set(const ObjectSubscript<TString>& value) const {
+inline bool VariantRef::set(
+    const MemberProxy<ObjectRef, TString> &value) const {
   return set(value.template as<VariantRef>());
 }
 
@@ -129,7 +130,26 @@ inline VariantConstRef VariantConstRef::operator[](size_t index) const {
   return ArrayConstRef(_data != 0 ? _data->asArray() : 0)[index];
 }
 
-inline ObjectRef VariantRef::promoteToObject() const {
-  return ObjectRef(_pool, _data != 0 ? _data->promoteToObject() : 0);
+template <typename TKey>
+VariantRef VariantRef::get(TKey *key) const {
+  return as<ObjectRef>().get(key);
 }
+
+template <typename TKey>
+VariantRef VariantRef::get(const TKey &key) const {
+  return as<ObjectRef>().get(key);
+}
+
+template <typename TKey>
+VariantRef VariantRef::getOrCreate(TKey *key) const {
+  ObjectRef obj = isNull() ? to<ObjectRef>() : as<ObjectRef>();
+  return obj.getOrCreate(key);
+}
+
+template <typename TKey>
+VariantRef VariantRef::getOrCreate(const TKey &key) const {
+  ObjectRef obj = isNull() ? to<ObjectRef>() : as<ObjectRef>();
+  return obj.getOrCreate(key);
+}
+
 }  // namespace ARDUINOJSON_NAMESPACE

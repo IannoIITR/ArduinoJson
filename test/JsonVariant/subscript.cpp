@@ -191,4 +191,10 @@ TEST_CASE("JsonVariantConst::operator[]") {
     REQUIRE(var.is<JsonObject>() == false);
     REQUIRE(value == 0);
   }
+
+  SECTION("Auto promote on several levels") {
+    var["one"]["two"] = "tree";
+
+    REQUIRE(var.as<std::string>() == "{\"one\":{\"two\":\"tree\"}}");
+  }
 }

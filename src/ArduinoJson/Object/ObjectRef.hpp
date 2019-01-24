@@ -181,14 +181,14 @@ class ObjectRef : public ObjectRefBase<CollectionData>, public Visitable {
   // TKey = const std::string&, const String&
   template <typename TKey>
   FORCE_INLINE ObjectRef createNestedObject(const TKey& key) const {
-    return set(key).template to<ObjectRef>();
+    return getOrCreate(key).template to<ObjectRef>();
   }
   //
   // ObjectRef createNestedObject(TKey);
   // TKey = char*, const char*, char[], const char[], const __FlashStringHelper*
   template <typename TKey>
   FORCE_INLINE ObjectRef createNestedObject(TKey* key) const {
-    return set(key).template to<ObjectRef>();
+    return getOrCreate(key).template to<ObjectRef>();
   }
 
   // Gets the value associated with the specified key.
@@ -213,19 +213,20 @@ class ObjectRef : public ObjectRefBase<CollectionData>, public Visitable {
 
   // Gets or sets the value associated with the specified key.
   //
-  // ObjectSubscript operator[](TKey)
+  // MemberProxy operator[](TKey)
   // TKey = const std::string&, const String&
   template <typename TKey>
-  FORCE_INLINE ObjectSubscript<const TKey&> operator[](const TKey& key) const {
-    return ObjectSubscript<const TKey&>(*this, key);
+  FORCE_INLINE MemberProxy<ObjectRef, const TKey&> operator[](
+      const TKey& key) const {
+    return MemberProxy<ObjectRef, const TKey&>(*this, key);
   }
   //
-  // ObjectSubscript operator[](TKey)
+  // MemberProxy operator[](TKey)
   // TKey = char*, const char*, char[], const char[N], const
   // __FlashStringHelper*
   template <typename TKey>
-  FORCE_INLINE ObjectSubscript<TKey*> operator[](TKey* key) const {
-    return ObjectSubscript<TKey*>(*this, key);
+  FORCE_INLINE MemberProxy<ObjectRef, TKey*> operator[](TKey* key) const {
+    return MemberProxy<ObjectRef, TKey*>(*this, key);
   }
 
   FORCE_INLINE bool operator==(ObjectRef rhs) const {
@@ -254,12 +255,12 @@ class ObjectRef : public ObjectRefBase<CollectionData>, public Visitable {
   }
 
   template <typename TKey>
-  FORCE_INLINE VariantRef set(TKey* key) const {
+  FORCE_INLINE VariantRef getOrCreate(TKey* key) const {
     return set_impl(wrapString(key));
   }
 
   template <typename TKey>
-  FORCE_INLINE VariantRef set(const TKey& key) const {
+  FORCE_INLINE VariantRef getOrCreate(const TKey& key) const {
     return set_impl(wrapString(key));
   }
 

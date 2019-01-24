@@ -88,8 +88,24 @@ class ArraySubscript : public VariantOperators<ArraySubscript>,
     return get_impl().size();
   }
 
-  ObjectRef promoteToObject() const {
-    return get_impl().promoteToObject();
+  template <typename TNestedKey>
+  VariantRef get(TNestedKey* key) const {
+    return get_impl().get(key);
+  }
+
+  template <typename TNestedKey>
+  VariantRef get(const TNestedKey& key) const {
+    return get_impl().get(key);
+  }
+
+  template <typename TNestedKey>
+  VariantRef getOrCreate(TNestedKey* key) const {
+    return get_impl().getOrCreate(key);
+  }
+
+  template <typename TNestedKey>
+  VariantRef getOrCreate(const TNestedKey& key) const {
+    return get_impl().getOrCreate(key);
   }
 
  private:

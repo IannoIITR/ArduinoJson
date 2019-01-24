@@ -23,8 +23,8 @@ namespace ARDUINOJSON_NAMESPACE {
 class ArrayRef;
 class ObjectRef;
 
-template <typename>
-class ObjectSubscript;
+template <typename, typename>
+class MemberProxy;
 
 // Contains the methods shared by VariantRef and VariantConstRef
 template <typename TData>
@@ -219,7 +219,7 @@ class VariantRef : public VariantRefBase<VariantData>,
   FORCE_INLINE bool set(ObjectRef object) const;
   FORCE_INLINE bool set(ObjectConstRef object) const;
   template <typename TString>
-  FORCE_INLINE bool set(const ObjectSubscript<TString> &) const;
+  FORCE_INLINE bool set(const MemberProxy<ObjectRef, TString> &) const;
 
   // Get the variant as the specified type.
   //
@@ -281,7 +281,17 @@ class VariantRef : public VariantRefBase<VariantData>,
   typename enable_if<is_same<T, VariantRef>::value, VariantRef>::type to()
       const;
 
-  FORCE_INLINE ObjectRef promoteToObject() const;
+  template <typename TKey>
+  VariantRef get(TKey *) const;
+
+  template <typename TKey>
+  VariantRef get(const TKey &) const;
+
+  template <typename TKey>
+  VariantRef getOrCreate(TKey *) const;
+
+  template <typename TKey>
+  VariantRef getOrCreate(const TKey &) const;
 
  private:
   MemoryPool *_pool;

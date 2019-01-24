@@ -12,7 +12,7 @@ void check(T value, const std::string &expected) {
   REQUIRE(expected.size() == returnValue);
 }
 
-TEST_CASE("serializeMsgPack(JsonObjectSubscript)") {
+TEST_CASE("serializeMsgPack(JsonMemberProxy)") {
   DynamicJsonDocument doc(4096);
   deserializeJson(doc, "{\"hello\":42}");
   JsonObject obj = doc.as<JsonObject>();

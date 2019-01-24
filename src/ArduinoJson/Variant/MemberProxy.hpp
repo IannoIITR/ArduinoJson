@@ -16,21 +16,20 @@
 namespace ARDUINOJSON_NAMESPACE {
 
 template <typename TObject, typename TKey>
-class VariantMemberProxy
-    : public VariantOperators<VariantMemberProxy<TObject, TKey> >,
-      public Visitable {
-  typedef VariantMemberProxy<TObject, TKey> this_type;
+class MemberProxy : public VariantOperators<MemberProxy<TObject, TKey> >,
+                    public Visitable {
+  typedef MemberProxy<TObject, TKey> this_type;
 
  public:
-  FORCE_INLINE VariantMemberProxy(TObject variant, TKey key)
+  FORCE_INLINE MemberProxy(TObject variant, TKey key)
       : _object(variant), _key(key) {}
 
   operator VariantConstRef() const {
-    return get_impl();
+    return getMember();
   }
 
   FORCE_INLINE this_type &operator=(const this_type &src) {
-    set_impl().set(src);
+    getOrCreateMember().set(src);
     return *this;
   }
 
@@ -42,7 +41,7 @@ class VariantMemberProxy
   template <typename TValue>
   FORCE_INLINE typename enable_if<!is_array<TValue>::value, this_type &>::type
   operator=(const TValue &src) {
-    set_impl().set(src);
+    getOrCreateMember().set(src);
     return *this;
   }
   //
@@ -50,27 +49,27 @@ class VariantMemberProxy
   // TValue = char*, const char*, const __FlashStringHelper*
   template <typename TValue>
   FORCE_INLINE this_type &operator=(TValue *src) {
-    set_impl().set(src);
+    getOrCreateMember().set(src);
     return *this;
   }
 
   FORCE_INLINE bool isNull() const {
-    return get_impl().isNull();
+    return getMember().isNull();
   }
 
   template <typename TValue>
   FORCE_INLINE typename VariantAs<TValue>::type as() const {
-    return get_impl().template as<TValue>();
+    return getMember().template as<TValue>();
   }
 
   template <typename TValue>
   FORCE_INLINE bool is() const {
-    return get_impl().template is<TValue>();
+    return getMember().template is<TValue>();
   }
 
   template <typename TValue>
   FORCE_INLINE typename VariantTo<TValue>::type to() {
-    return set_impl().template to<TValue>();
+    return getOrCreateMember().template to<TValue>();
   }
 
   // Sets the specified value.
@@ -82,28 +81,48 @@ class VariantMemberProxy
   template <typename TValue>
   FORCE_INLINE typename enable_if<!is_array<TValue>::value, bool>::type set(
       const TValue &value) {
-    return set_impl().set(value);
+    return getOrCreateMember().set(value);
   }
   //
   // bool set(TValue);
   // TValue = char*, const char, const __FlashStringHelper*
   template <typename TValue>
   FORCE_INLINE bool set(const TValue *value) {
-    return set_impl().set(value);
+    return getOrCreateMember().set(value);
   }
 
   template <typename Visitor>
   void accept(Visitor &visitor) const {
-    return get_impl().accept(visitor);
+    return getMember().accept(visitor);
+  }
+
+  template <typename TNestedKey>
+  FORCE_INLINE VariantRef get(TNestedKey *key) const {
+    return getMember().get(key);
+  }
+
+  template <typename TNestedKey>
+  FORCE_INLINE VariantRef get(const TNestedKey &key) const {
+    return getMember().get(key);
+  }
+
+  template <typename TNestedKey>
+  FORCE_INLINE VariantRef getOrCreate(TNestedKey *key) const {
+    return getOrCreateMember().getOrCreate(key);
+  }
+
+  template <typename TNestedKey>
+  FORCE_INLINE VariantRef getOrCreate(const TNestedKey &key) const {
+    return getOrCreateMember().getOrCreate(key);
   }
 
  private:
-  FORCE_INLINE VariantRef get_impl() const {
-    return _object.as<ObjectRef>().get(_key);
+  FORCE_INLINE VariantRef getMember() const {
+    return _object.get(_key);
   }
 
-  FORCE_INLINE VariantRef set_impl() const {
-    return _object.promoteToObject().set(_key);
+  FORCE_INLINE VariantRef getOrCreateMember() const {
+    return _object.getOrCreate(_key);
   }
 
   TObject _object;
@@ -113,17 +132,17 @@ class VariantMemberProxy
 template <typename TImpl>
 template <typename TString>
 inline typename enable_if<IsString<TString>::value,
-                          VariantMemberProxy<TImpl, const TString &> >::type
+                          MemberProxy<TImpl, const TString &> >::type
     VariantSubscripts<TImpl>::operator[](const TString &key) const {
-  return VariantMemberProxy<TImpl, const TString &>(*impl(), key);
+  return MemberProxy<TImpl, const TString &>(*impl(), key);
 }
 
 template <typename TImpl>
 template <typename TString>
 inline typename enable_if<IsString<TString *>::value,
-                          VariantMemberProxy<TImpl, TString *> >::type
+                          MemberProxy<TImpl, TString *> >::type
     VariantSubscripts<TImpl>::operator[](TString *key) const {
-  return VariantMemberProxy<TImpl, TString *>(*impl(), key);
+  return MemberProxy<TImpl, TString *>(*impl(), key);
 }
 
 }  // namespace ARDUINOJSON_NAMESPACE

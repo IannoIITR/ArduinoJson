@@ -11,11 +11,11 @@ namespace ARDUINOJSON_NAMESPACE {
 
 template <typename TString>
 inline ArrayRef ObjectRef::createNestedArray(const TString& key) const {
-  return set(key).template to<ArrayRef>();
+  return getOrCreate(key).template to<ArrayRef>();
 }
 
 template <typename TString>
 inline ArrayRef ObjectRef::createNestedArray(TString* key) const {
-  return set(key).template to<ArrayRef>();
+  return getOrCreate(key).template to<ArrayRef>();
 }
 }  // namespace ARDUINOJSON_NAMESPACE
