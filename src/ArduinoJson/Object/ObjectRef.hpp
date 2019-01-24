@@ -184,12 +184,12 @@ class ObjectRef : public ObjectRefBase<CollectionData>,
 
   template <typename TKey>
   FORCE_INLINE VariantRef getOrCreate(TKey* key) const {
-    return set_impl(wrapString(key));
+    return getOrCreate_impl(wrapString(key));
   }
 
   template <typename TKey>
   FORCE_INLINE VariantRef getOrCreate(const TKey& key) const {
-    return set_impl(wrapString(key));
+    return getOrCreate_impl(wrapString(key));
   }
 
   FORCE_INLINE bool operator==(ObjectRef rhs) const {
@@ -224,8 +224,8 @@ class ObjectRef : public ObjectRefBase<CollectionData>,
   }
 
   template <typename TKey>
-  FORCE_INLINE VariantRef set_impl(TKey key) const {
-    return VariantRef(_pool, objectSet(_data, key, _pool));
+  FORCE_INLINE VariantRef getOrCreate_impl(TKey key) const {
+    return VariantRef(_pool, objectGetOrCreate(_data, key, _pool));
   }
 
   MemoryPool* _pool;
