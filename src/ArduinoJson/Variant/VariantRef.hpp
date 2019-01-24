@@ -215,7 +215,7 @@ class VariantRef : public VariantRefBase<VariantData>,
 
   FORCE_INLINE bool set(ArrayRef array) const;
   FORCE_INLINE bool set(ArrayConstRef array) const;
-  FORCE_INLINE bool set(const ElementProxy &) const;
+  FORCE_INLINE bool set(const ElementProxy<ArrayRef> &) const;
   FORCE_INLINE bool set(ObjectRef object) const;
   FORCE_INLINE bool set(ObjectConstRef object) const;
   template <typename TString>
@@ -280,6 +280,8 @@ class VariantRef : public VariantRefBase<VariantData>,
   template <typename T>
   typename enable_if<is_same<T, VariantRef>::value, VariantRef>::type to()
       const;
+
+  VariantRef get(size_t) const;
 
   template <typename TKey>
   VariantRef get(TKey *) const;

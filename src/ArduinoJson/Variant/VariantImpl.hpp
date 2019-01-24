@@ -69,7 +69,7 @@ inline bool VariantRef::set(ArrayConstRef array) const {
   return to<ArrayRef>().copyFrom(array);
 }
 
-inline bool VariantRef::set(const ElementProxy &value) const {
+inline bool VariantRef::set(const ElementProxy<ArrayRef> &value) const {
   return set(value.as<VariantRef>());
 }
 
@@ -128,6 +128,10 @@ VariantRef::to() const {
 
 inline VariantConstRef VariantConstRef::operator[](size_t index) const {
   return ArrayConstRef(_data != 0 ? _data->asArray() : 0)[index];
+}
+
+inline VariantRef VariantRef::get(size_t index) const {
+  return VariantRef(_pool, _data != 0 ? _data->get(index) : 0);
 }
 
 template <typename TKey>

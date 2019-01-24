@@ -117,12 +117,16 @@ class JsonDocument : public Visitable {
     return getVariant()[key];
   }
 
-  FORCE_INLINE ElementProxy operator[](size_t index) {
-    return getVariant()[index];
+  FORCE_INLINE ElementProxy<JsonDocument&> operator[](size_t index) {
+    return ElementProxy<JsonDocument&>(*this, index);
   }
 
   FORCE_INLINE VariantConstRef operator[](size_t index) const {
     return getVariant()[index];
+  }
+
+  FORCE_INLINE VariantRef get(size_t index) {
+    return VariantRef(&_pool, _data.get(index));
   }
 
   template <typename TKey>
@@ -131,7 +135,8 @@ class JsonDocument : public Visitable {
   }
 
   template <typename TKey>
-  FORCE_INLINE VariantRef get(const TKey& key) {
+  FORCE_INLINE typename enable_if<IsString<TKey>::value, VariantRef>::type get(
+      const TKey& key) {
     return VariantRef(&_pool, _data.get(wrapString(key)));
   }
 

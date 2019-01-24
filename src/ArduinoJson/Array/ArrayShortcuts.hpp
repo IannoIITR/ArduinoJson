@@ -9,13 +9,14 @@
 
 namespace ARDUINOJSON_NAMESPACE {
 // Forward declarations.
+template <typename>
 class ElementProxy;
 
 template <typename TImpl>
 class ArrayShortcuts {
  public:
   // Returns the element at specified index if the variant is an array.
-  FORCE_INLINE ElementProxy operator[](size_t index) const;
+  FORCE_INLINE ElementProxy<TImpl> operator[](size_t index) const;
 
  private:
   const TImpl *impl() const {

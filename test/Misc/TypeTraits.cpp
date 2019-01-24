@@ -54,7 +54,7 @@ TEST_CASE("Polyfills/type_traits") {
     CHECK(IsVisitable<VariantRef>::value == true);
     CHECK(IsVisitable<VariantConstRef>::value == true);
     CHECK(IsVisitable<ArrayRef>::value == true);
-    CHECK(IsVisitable<ElementProxy>::value == true);
+    CHECK(IsVisitable<ElementProxy<ArrayRef> >::value == true);
     CHECK(IsVisitable<ArrayConstRef>::value == true);
     CHECK(IsVisitable<ObjectRef>::value == true);
     CHECK((IsVisitable<MemberProxy<ObjectRef, const char*> >::value == true));

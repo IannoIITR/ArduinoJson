@@ -13,12 +13,17 @@
 #endif
 
 namespace ARDUINOJSON_NAMESPACE {
-class ElementProxy : public VariantOperators<ElementProxy>, public Visitable {
+
+template <typename TArray>
+class ElementProxy : public VariantOperators<ElementProxy<TArray> >,
+                     public Visitable {
+  typedef ElementProxy<TArray> this_type;
+
  public:
-  FORCE_INLINE ElementProxy(ArrayRef array, size_t index)
+  FORCE_INLINE ElementProxy(TArray array, size_t index)
       : _array(array), _index(index) {}
 
-  FORCE_INLINE ElementProxy& operator=(const ElementProxy& src) {
+  FORCE_INLINE this_type& operator=(const this_type& src) {
     get_impl().set(src.as<VariantConstRef>());
     return *this;
   }
@@ -29,7 +34,7 @@ class ElementProxy : public VariantOperators<ElementProxy>, public Visitable {
   // TValue = bool, long, int, short, float, double, serialized, VariantRef,
   //          std::string, String, ArrayRef, ObjectRef
   template <typename T>
-  FORCE_INLINE ElementProxy& operator=(const T& src) {
+  FORCE_INLINE this_type& operator=(const T& src) {
     get_impl().set(src);
     return *this;
   }
@@ -37,7 +42,7 @@ class ElementProxy : public VariantOperators<ElementProxy>, public Visitable {
   // operator=(TValue)
   // TValue = char*, const char*, const __FlashStringHelper*
   template <typename T>
-  FORCE_INLINE ElementProxy& operator=(T* src) {
+  FORCE_INLINE this_type& operator=(T* src) {
     get_impl().set(src);
     return *this;
   }
@@ -112,17 +117,18 @@ class ElementProxy : public VariantOperators<ElementProxy>, public Visitable {
     return _array.get(_index);
   }
 
-  ArrayRef _array;
+  TArray _array;
   const size_t _index;
 };
 
 template <typename TImpl>
-inline ElementProxy ArrayShortcuts<TImpl>::operator[](size_t index) const {
-  return impl()->template as<ArrayRef>()[index];
+inline ElementProxy<TImpl> ArrayShortcuts<TImpl>::operator[](
+    size_t index) const {
+  return ElementProxy<TImpl>(*impl(), index);
 }
 
-inline ElementProxy ArrayRef::operator[](size_t index) const {
-  return ElementProxy(*this, index);
+inline ElementProxy<ArrayRef> ArrayRef::operator[](size_t index) const {
+  return ElementProxy<ArrayRef>(*this, index);
 }
 }  // namespace ARDUINOJSON_NAMESPACE
 
