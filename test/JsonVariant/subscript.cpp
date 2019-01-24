@@ -31,7 +31,7 @@ TEST_CASE("JsonVariant::operator[]") {
 
       REQUIRE(2 == var.size());
       var[0].as<std::string>();
-     // REQUIRE(std::string("element at index 0") == );
+      // REQUIRE(std::string("element at index 0") == );
       REQUIRE(std::string("element at index 1") == var[1]);
       REQUIRE(std::string("element at index 0") ==
               var[static_cast<unsigned char>(0)]);  // issue #381
@@ -194,8 +194,10 @@ TEST_CASE("JsonVariantConst::operator[]") {
   }
 
   SECTION("Auto promote on several levels") {
-    var["one"]["two"] = "tree";
+    var["one"]["two"] = "three";
 
-    REQUIRE(var.as<std::string>() == "{\"one\":{\"two\":\"tree\"}}");
+    REQUIRE(var.as<std::string>() == "{\"one\":{\"two\":\"three\"}}");
+    REQUIRE(var["one"]["two"] == "three");
+    REQUIRE(cvar["one"]["two"] == "three");
   }
 }
