@@ -23,6 +23,9 @@ namespace ARDUINOJSON_NAMESPACE {
 class ArrayRef;
 class ObjectRef;
 
+template <typename>
+class ObjectSubscript;
+
 // Contains the methods shared by VariantRef and VariantConstRef
 template <typename TData>
 class VariantRefBase {

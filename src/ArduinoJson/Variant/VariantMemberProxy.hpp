@@ -16,13 +16,14 @@
 namespace ARDUINOJSON_NAMESPACE {
 
 template <typename TStringRef>
-class ObjectSubscript : public VariantOperators<ObjectSubscript<TStringRef> >,
-                        public Visitable {
-  typedef ObjectSubscript<TStringRef> this_type;
+class VariantMemberProxy
+    : public VariantOperators<VariantMemberProxy<TStringRef> >,
+      public Visitable {
+  typedef VariantMemberProxy<TStringRef> this_type;
 
  public:
-  FORCE_INLINE ObjectSubscript(ObjectRef object, TStringRef key)
-      : _object(object), _key(key) {}
+  FORCE_INLINE VariantMemberProxy(VariantRef variant, TStringRef key)
+      : _variant(variant), _key(key) {}
 
   operator VariantConstRef() const {
     return get_impl();
@@ -98,16 +99,41 @@ class ObjectSubscript : public VariantOperators<ObjectSubscript<TStringRef> >,
 
  private:
   FORCE_INLINE VariantRef get_impl() const {
-    return _object.get(_key);
+    return getObject().get(_key);
   }
 
   FORCE_INLINE VariantRef set_impl() const {
-    return _object.set(_key);
+    return getObjectOrPromote().set(_key);
   }
 
-  ObjectRef _object;
+  ObjectRef getObject() const {
+    return _variant.as<ObjectRef>();
+  }
+
+  ObjectRef getObjectOrPromote() const {
+    if (_variant.isNull()) return _variant.to<ObjectRef>();
+    return _variant.as<ObjectRef>();
+  }
+
+  VariantRef _variant;
   TStringRef _key;
 };
+
+template <typename TImpl>
+template <typename TString>
+inline typename enable_if<IsString<TString>::value,
+                          VariantMemberProxy<const TString &> >::type
+    VariantSubscripts<TImpl>::operator[](const TString &key) const {
+  return VariantMemberProxy<const TString &>(*impl(), key);
+}
+
+template <typename TImpl>
+template <typename TString>
+inline typename enable_if<IsString<TString *>::value,
+                          VariantMemberProxy<TString *> >::type
+    VariantSubscripts<TImpl>::operator[](TString *key) const {
+  return VariantMemberProxy<TString *>(*impl(), key);
+}
 
 }  // namespace ARDUINOJSON_NAMESPACE
 
