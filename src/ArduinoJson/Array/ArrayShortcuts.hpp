@@ -20,6 +20,8 @@ class ArrayShortcuts {
 
   FORCE_INLINE ObjectRef createNestedObject() const;
 
+  FORCE_INLINE ArrayRef createNestedArray() const;
+
  private:
   const TImpl *impl() const {
     return static_cast<const TImpl *>(this);

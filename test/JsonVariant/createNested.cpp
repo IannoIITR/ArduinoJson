@@ -19,3 +19,15 @@ TEST_CASE("JsonVariant::createNestedObject()") {
     REQUIRE(obj.isNull() == false);
   }
 }
+
+TEST_CASE("JsonVariant::createNestedArray()") {
+  DynamicJsonDocument doc(4096);
+  JsonVariant variant = doc.to<JsonVariant>();
+
+  SECTION("promotes to array") {
+    JsonArray arr = variant.createNestedArray();
+
+    REQUIRE(variant.is<JsonArray>() == true);
+    REQUIRE(arr.isNull() == false);
+  }
+}
