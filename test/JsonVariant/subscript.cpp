@@ -171,4 +171,24 @@ TEST_CASE("JsonVariantConst::operator[]") {
       REQUIRE(cvar[0].isNull());
     }
   }
+
+  SECTION("Auto promote null JsonVariant to JsonObject") {
+    var["hello"] = "world";
+
+    REQUIRE(var.is<JsonObject>() == true);
+  }
+
+  SECTION("Don't auto promote non-null JsonVariant to JsonObject") {
+    var.set(42);
+    var["hello"] = "world";
+
+    REQUIRE(var.is<JsonObject>() == false);
+  }
+
+  SECTION("Don't auto promote null JsonVariant to JsonObject when reading") {
+    const char* value = var["hello"];
+
+    REQUIRE(var.is<JsonObject>() == false);
+    REQUIRE(value == 0);
+  }
 }

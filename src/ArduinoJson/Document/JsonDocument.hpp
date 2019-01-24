@@ -10,6 +10,7 @@
 #include "../Variant/VariantTo.hpp"
 
 #include "../Array/ArraySubscript.hpp"
+#include "../Variant/VariantMemberProxy.hpp"
 
 namespace ARDUINOJSON_NAMESPACE {
 
@@ -81,21 +82,21 @@ class JsonDocument : public Visitable {
     return _data;
   }
 
-  // ObjectSubscript operator[](TKey)
+  // VariantMemberProxy operator[](TKey)
   // TKey = const std::string&, const String&
   template <typename TKey>
   FORCE_INLINE typename enable_if<IsString<TKey>::value,
-                                  ObjectSubscript<const TKey&> >::type
+                                  VariantMemberProxy<const TKey&> >::type
   operator[](const TKey& key) {
     return getVariant()[key];
   }
 
-  // ObjectSubscript operator[](TKey);
+  // VariantMemberProxy operator[](TKey);
   // TKey = const char*, const char[N], const __FlashStringHelper*
   template <typename TKey>
-  FORCE_INLINE
-      typename enable_if<IsString<TKey*>::value, ObjectSubscript<TKey*> >::type
-      operator[](TKey* key) {
+  FORCE_INLINE typename enable_if<IsString<TKey*>::value,
+                                  VariantMemberProxy<TKey*> >::type
+  operator[](TKey* key) {
     return getVariant()[key];
   }
 
