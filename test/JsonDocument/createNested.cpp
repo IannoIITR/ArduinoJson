@@ -24,3 +24,13 @@ TEST_CASE("JsonDocument::createNestedArray(key)") {
     }
   }
 }
+
+TEST_CASE("JsonDocument::createNestedArray()") {
+  DynamicJsonDocument doc(4096);
+
+  SECTION("promotes to array") {
+    doc.createNestedArray();
+
+    REQUIRE(doc.is<JsonArray>());
+  }
+}

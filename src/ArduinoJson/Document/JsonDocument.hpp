@@ -82,6 +82,10 @@ class JsonDocument : public Visitable {
     return _data;
   }
 
+  ArrayRef createNestedArray() {
+    return add().to<ArrayRef>();
+  }
+
   template <typename TKey>
   ArrayRef createNestedArray(TKey* key) {
     return getOrCreate(key).to<ArrayRef>();
@@ -158,6 +162,10 @@ class JsonDocument : public Visitable {
   template <typename TKey>
   FORCE_INLINE VariantRef getOrCreate(const TKey& key) {
     return VariantRef(&_pool, _data.getOrCreate(wrapString(key), &_pool));
+  }
+
+  FORCE_INLINE VariantRef add() {
+    return VariantRef(&_pool, _data.add(&_pool));
   }
 
  protected:
