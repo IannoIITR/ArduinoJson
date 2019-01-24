@@ -14,7 +14,7 @@
 #include "ArduinoJson/Document/StaticJsonDocument.hpp"
 
 #include "ArduinoJson/Array/ArrayImpl.hpp"
-#include "ArduinoJson/Array/ArraySubscript.hpp"
+#include "ArduinoJson/Array/ElementProxy.hpp"
 #include "ArduinoJson/Collection/CollectionImpl.hpp"
 #include "ArduinoJson/Object/ObjectImpl.hpp"
 #include "ArduinoJson/Variant/MemberProxy.hpp"

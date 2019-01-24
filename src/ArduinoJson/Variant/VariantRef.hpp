@@ -215,7 +215,7 @@ class VariantRef : public VariantRefBase<VariantData>,
 
   FORCE_INLINE bool set(ArrayRef array) const;
   FORCE_INLINE bool set(ArrayConstRef array) const;
-  FORCE_INLINE bool set(const ArraySubscript &) const;
+  FORCE_INLINE bool set(const ElementProxy &) const;
   FORCE_INLINE bool set(ObjectRef object) const;
   FORCE_INLINE bool set(ObjectConstRef object) const;
   template <typename TString>

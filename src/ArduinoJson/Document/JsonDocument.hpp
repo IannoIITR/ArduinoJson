@@ -9,7 +9,7 @@
 #include "../Variant/VariantRef.hpp"
 #include "../Variant/VariantTo.hpp"
 
-#include "../Array/ArraySubscript.hpp"
+#include "../Array/ElementProxy.hpp"
 #include "../Variant/MemberProxy.hpp"
 
 namespace ARDUINOJSON_NAMESPACE {
@@ -117,7 +117,7 @@ class JsonDocument : public Visitable {
     return getVariant()[key];
   }
 
-  FORCE_INLINE ArraySubscript operator[](size_t index) {
+  FORCE_INLINE ElementProxy operator[](size_t index) {
     return getVariant()[index];
   }
 

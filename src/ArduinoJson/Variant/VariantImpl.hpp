@@ -69,7 +69,7 @@ inline bool VariantRef::set(ArrayConstRef array) const {
   return to<ArrayRef>().copyFrom(array);
 }
 
-inline bool VariantRef::set(const ArraySubscript &value) const {
+inline bool VariantRef::set(const ElementProxy &value) const {
   return set(value.as<VariantRef>());
 }
 

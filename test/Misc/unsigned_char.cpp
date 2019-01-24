@@ -181,7 +181,7 @@ TEST_CASE("unsigned char[]") {
     }
   }
 
-  SECTION("JsonArraySubscript") {
+  SECTION("JsonElementProxy") {
     SECTION("set()") {
       unsigned char value[] = "world";
 

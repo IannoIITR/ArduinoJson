@@ -16,7 +16,7 @@
 namespace ARDUINOJSON_NAMESPACE {
 
 class ObjectRef;
-class ArraySubscript;
+class ElementProxy;
 
 template <typename TData>
 class ArrayRefBase {
@@ -190,7 +190,7 @@ class ArrayRef : public ArrayRefBase<CollectionData>, public Visitable {
   FORCE_INLINE ArrayRef createNestedArray() const;
   FORCE_INLINE ObjectRef createNestedObject() const;
 
-  FORCE_INLINE ArraySubscript operator[](size_t index) const;
+  FORCE_INLINE ElementProxy operator[](size_t index) const;
 
   FORCE_INLINE bool operator==(ArrayRef rhs) const {
     return arrayEquals(_data, rhs._data);

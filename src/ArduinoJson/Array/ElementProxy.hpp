@@ -13,13 +13,12 @@
 #endif
 
 namespace ARDUINOJSON_NAMESPACE {
-class ArraySubscript : public VariantOperators<ArraySubscript>,
-                       public Visitable {
+class ElementProxy : public VariantOperators<ElementProxy>, public Visitable {
  public:
-  FORCE_INLINE ArraySubscript(ArrayRef array, size_t index)
+  FORCE_INLINE ElementProxy(ArrayRef array, size_t index)
       : _array(array), _index(index) {}
 
-  FORCE_INLINE ArraySubscript& operator=(const ArraySubscript& src) {
+  FORCE_INLINE ElementProxy& operator=(const ElementProxy& src) {
     get_impl().set(src.as<VariantConstRef>());
     return *this;
   }
@@ -30,7 +29,7 @@ class ArraySubscript : public VariantOperators<ArraySubscript>,
   // TValue = bool, long, int, short, float, double, serialized, VariantRef,
   //          std::string, String, ArrayRef, ObjectRef
   template <typename T>
-  FORCE_INLINE ArraySubscript& operator=(const T& src) {
+  FORCE_INLINE ElementProxy& operator=(const T& src) {
     get_impl().set(src);
     return *this;
   }
@@ -38,7 +37,7 @@ class ArraySubscript : public VariantOperators<ArraySubscript>,
   // operator=(TValue)
   // TValue = char*, const char*, const __FlashStringHelper*
   template <typename T>
-  FORCE_INLINE ArraySubscript& operator=(T* src) {
+  FORCE_INLINE ElementProxy& operator=(T* src) {
     get_impl().set(src);
     return *this;
   }
@@ -118,12 +117,12 @@ class ArraySubscript : public VariantOperators<ArraySubscript>,
 };
 
 template <typename TImpl>
-inline ArraySubscript ArrayShortcuts<TImpl>::operator[](size_t index) const {
+inline ElementProxy ArrayShortcuts<TImpl>::operator[](size_t index) const {
   return impl()->template as<ArrayRef>()[index];
 }
 
-inline ArraySubscript ArrayRef::operator[](size_t index) const {
-  return ArraySubscript(*this, index);
+inline ElementProxy ArrayRef::operator[](size_t index) const {
+  return ElementProxy(*this, index);
 }
 }  // namespace ARDUINOJSON_NAMESPACE
 

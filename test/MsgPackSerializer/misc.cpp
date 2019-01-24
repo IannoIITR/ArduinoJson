@@ -23,7 +23,7 @@ TEST_CASE("serializeMsgPack(JsonMemberProxy)") {
   REQUIRE(result == "*");
 }
 
-TEST_CASE("serializeMsgPack(JsonArraySubscript)") {
+TEST_CASE("serializeMsgPack(JsonElementProxy)") {
   DynamicJsonDocument doc(4096);
   deserializeJson(doc, "[42]");
   JsonArray arr = doc.as<JsonArray>();

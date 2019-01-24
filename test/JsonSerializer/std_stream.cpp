@@ -55,7 +55,7 @@ TEST_CASE("operator<<(std::ostream)") {
     REQUIRE("[\"value\"]" == os.str());
   }
 
-  SECTION("JsonArraySubscript") {
+  SECTION("JsonElementProxy") {
     JsonArray array = doc.to<JsonArray>();
     array.add("value");
 
