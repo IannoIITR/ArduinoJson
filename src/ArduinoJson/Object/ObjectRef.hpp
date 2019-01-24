@@ -177,22 +177,6 @@ class ObjectRef : public ObjectRefBase<CollectionData>,
   template <typename TKey>
   FORCE_INLINE ArrayRef createNestedArray(TKey* key) const;
 
-  // Creates and adds a ObjectRef.
-  //
-  // ObjectRef createNestedObject(TKey);
-  // TKey = const std::string&, const String&
-  template <typename TKey>
-  FORCE_INLINE ObjectRef createNestedObject(const TKey& key) const {
-    return getOrCreate(key).template to<ObjectRef>();
-  }
-  //
-  // ObjectRef createNestedObject(TKey);
-  // TKey = char*, const char*, char[], const char[], const __FlashStringHelper*
-  template <typename TKey>
-  FORCE_INLINE ObjectRef createNestedObject(TKey* key) const {
-    return getOrCreate(key).template to<ObjectRef>();
-  }
-
   // Gets the value associated with the specified key.
   //
   // VariantRef get<TValue>(TKey) const;

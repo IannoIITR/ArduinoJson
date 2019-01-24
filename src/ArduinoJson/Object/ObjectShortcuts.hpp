@@ -29,6 +29,18 @@ class ObjectShortcuts {
                                   MemberProxy<TImpl, TKey *> >::type
   operator[](TKey *key) const;
 
+  // Creates and adds a ObjectRef.
+  //
+  // ObjectRef createNestedObject(TKey);
+  // TKey = const std::string&, const String&
+  template <typename TKey>
+  ObjectRef createNestedObject(const TKey &key) const;
+  //
+  // ObjectRef createNestedObject(TKey);
+  // TKey = char*, const char*, char[], const char[], const __FlashStringHelper*
+  template <typename TKey>
+  ObjectRef createNestedObject(TKey *key) const;
+
  private:
   const TImpl *impl() const {
     return static_cast<const TImpl *>(this);

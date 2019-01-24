@@ -14,6 +14,8 @@ class VariantSubscripts : public ObjectShortcuts<TImpl>,
                           public ArrayShortcuts<TImpl> {
  public:
   using ObjectShortcuts<TImpl>::operator[];
+  using ObjectShortcuts<TImpl>::createNestedObject;
   using ArrayShortcuts<TImpl>::operator[];
+  using ArrayShortcuts<TImpl>::createNestedObject;
 };
 }  // namespace ARDUINOJSON_NAMESPACE

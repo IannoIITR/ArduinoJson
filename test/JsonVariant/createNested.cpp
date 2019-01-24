@@ -39,4 +39,24 @@ TEST_CASE("JsonVariant::createNestedArray()") {
     REQUIRE(variant.is<JsonArray>() == true);
     REQUIRE(arr.isNull() == false);
   }
+
+  SECTION("works on MemberProxy") {
+    JsonArray arr = variant["items"].createNestedArray();
+    arr.add("42");
+
+    REQUIRE(variant["items"][0][0] == 42);
+  }
+}
+
+TEST_CASE("JsonVariant::createNestedObject(key)") {
+  DynamicJsonDocument doc(4096);
+  JsonVariant variant = doc.to<JsonVariant>();
+
+  SECTION("promotes to object") {
+    JsonObject obj = variant.createNestedObject("weather");
+    obj["temp"] = "42";
+
+    REQUIRE(variant.is<JsonObject>() == true);
+    REQUIRE(variant["weather"]["temp"] == 42);
+  }
 }
