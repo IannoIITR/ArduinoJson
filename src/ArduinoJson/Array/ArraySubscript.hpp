@@ -118,7 +118,7 @@ class ArraySubscript : public VariantOperators<ArraySubscript>,
 };
 
 template <typename TImpl>
-inline ArraySubscript VariantSubscripts<TImpl>::operator[](size_t index) const {
+inline ArraySubscript ArrayShortcuts<TImpl>::operator[](size_t index) const {
   return impl()->template as<ArrayRef>()[index];
 }
 
