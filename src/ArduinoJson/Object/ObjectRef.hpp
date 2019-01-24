@@ -127,7 +127,9 @@ class ObjectConstRef : public ObjectRefBase<const CollectionData>,
   }
 };
 
-class ObjectRef : public ObjectRefBase<CollectionData>, public Visitable {
+class ObjectRef : public ObjectRefBase<CollectionData>,
+                  public ObjectShortcuts<ObjectRef>,
+                  public Visitable {
   typedef ObjectRefBase<CollectionData> base_type;
 
  public:
@@ -193,40 +195,28 @@ class ObjectRef : public ObjectRefBase<CollectionData>, public Visitable {
 
   // Gets the value associated with the specified key.
   //
-  // TValue get<TValue>(TKey) const;
+  // VariantRef get<TValue>(TKey) const;
   // TKey = const std::string&, const String&
-  // TValue = bool, char, long, int, short, float, double,
-  //          std::string, String, ArrayRef, ObjectRef
   template <typename TKey>
   FORCE_INLINE VariantRef get(const TKey& key) const {
     return get_impl(wrapString(key));
   }
   //
-  // TValue get<TValue>(TKey) const;
+  // VariantRef get<TValue>(TKey) const;
   // TKey = char*, const char*, const __FlashStringHelper*
-  // TValue = bool, char, long, int, short, float, double,
-  //          std::string, String, ArrayRef, ObjectRef
   template <typename TKey>
   FORCE_INLINE VariantRef get(TKey* key) const {
     return get_impl(wrapString(key));
   }
 
-  // Gets or sets the value associated with the specified key.
-  //
-  // MemberProxy operator[](TKey)
-  // TKey = const std::string&, const String&
   template <typename TKey>
-  FORCE_INLINE MemberProxy<ObjectRef, const TKey&> operator[](
-      const TKey& key) const {
-    return MemberProxy<ObjectRef, const TKey&>(*this, key);
+  FORCE_INLINE VariantRef getOrCreate(TKey* key) const {
+    return set_impl(wrapString(key));
   }
-  //
-  // MemberProxy operator[](TKey)
-  // TKey = char*, const char*, char[], const char[N], const
-  // __FlashStringHelper*
+
   template <typename TKey>
-  FORCE_INLINE MemberProxy<ObjectRef, TKey*> operator[](TKey* key) const {
-    return MemberProxy<ObjectRef, TKey*>(*this, key);
+  FORCE_INLINE VariantRef getOrCreate(const TKey& key) const {
+    return set_impl(wrapString(key));
   }
 
   FORCE_INLINE bool operator==(ObjectRef rhs) const {
@@ -252,16 +242,6 @@ class ObjectRef : public ObjectRefBase<CollectionData>, public Visitable {
   template <typename TKey>
   FORCE_INLINE void remove(TKey* key) const {
     objectRemove(_data, wrapString(key));
-  }
-
-  template <typename TKey>
-  FORCE_INLINE VariantRef getOrCreate(TKey* key) const {
-    return set_impl(wrapString(key));
-  }
-
-  template <typename TKey>
-  FORCE_INLINE VariantRef getOrCreate(const TKey& key) const {
-    return set_impl(wrapString(key));
   }
 
  private:

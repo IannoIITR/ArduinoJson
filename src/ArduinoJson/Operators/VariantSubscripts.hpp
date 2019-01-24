@@ -9,39 +9,20 @@
 #include "../Strings/StringWrappers.hpp"
 #include "../Variant/VariantAs.hpp"
 
-namespace ARDUINOJSON_NAMESPACE {
-class ArrayRef;
-class ObjectRef;
+#include "../Object/ObjectShortcuts.hpp"
 
+namespace ARDUINOJSON_NAMESPACE {
 // Forward declarations.
 class ArraySubscript;
-template <typename TParent, typename TKey>
-class MemberProxy;
 
 template <typename TImpl>
-class VariantSubscripts {
+class VariantSubscripts : public ObjectShortcuts<TImpl> {
  public:
   // Mimics an array.
   // Returns the element at specified index if the variant is an array.
   FORCE_INLINE ArraySubscript operator[](size_t index) const;
 
-  // Mimics an object.
-  // Returns the value associated with the specified key if the variant is
-  // an object.
-  //
-  // MemberProxy operator[](TKey) const;
-  // TKey = const std::string&, const String&
-  template <typename TKey>
-  FORCE_INLINE typename enable_if<IsString<TKey>::value,
-                                  MemberProxy<TImpl, const TKey &> >::type
-  operator[](const TKey &key) const;
-  //
-  // MemberProxy operator[](TKey) const;
-  // TKey = const char*, const char[N], const __FlashStringHelper*
-  template <typename TKey>
-  FORCE_INLINE typename enable_if<IsString<TKey *>::value,
-                                  MemberProxy<TImpl, TKey *> >::type
-  operator[](TKey *key) const;
+  using ObjectShortcuts<TImpl>::operator[];
 
  private:
   const TImpl *impl() const {

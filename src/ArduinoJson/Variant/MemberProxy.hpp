@@ -133,7 +133,7 @@ template <typename TImpl>
 template <typename TString>
 inline typename enable_if<IsString<TString>::value,
                           MemberProxy<TImpl, const TString &> >::type
-    VariantSubscripts<TImpl>::operator[](const TString &key) const {
+    ObjectShortcuts<TImpl>::operator[](const TString &key) const {
   return MemberProxy<TImpl, const TString &>(*impl(), key);
 }
 
@@ -141,7 +141,7 @@ template <typename TImpl>
 template <typename TString>
 inline typename enable_if<IsString<TString *>::value,
                           MemberProxy<TImpl, TString *> >::type
-    VariantSubscripts<TImpl>::operator[](TString *key) const {
+    ObjectShortcuts<TImpl>::operator[](TString *key) const {
   return MemberProxy<TImpl, TString *>(*impl(), key);
 }
 
