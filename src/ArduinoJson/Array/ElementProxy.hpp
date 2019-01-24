@@ -53,17 +53,17 @@ class ElementProxy : public VariantOperators<ElementProxy<TArray> >,
 
   template <typename T>
   FORCE_INLINE typename VariantAs<T>::type as() const {
-    return getElement().as<T>();
+    return getElement().template as<T>();
   }
 
   template <typename T>
   FORCE_INLINE bool is() const {
-    return getElement().is<T>();
+    return getElement().template is<T>();
   }
 
   template <typename T>
   FORCE_INLINE typename VariantTo<T>::type to() const {
-    return getElement().to<T>();
+    return getElement().template to<T>();
   }
 
   // Replaces the value

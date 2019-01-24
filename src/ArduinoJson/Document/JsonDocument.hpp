@@ -88,12 +88,12 @@ class JsonDocument : public Visitable {
 
   template <typename TKey>
   ArrayRef createNestedArray(TKey* key) {
-    return getOrCreate(key).to<ArrayRef>();
+    return getOrCreate(key).template to<ArrayRef>();
   }
 
   template <typename TKey>
   ArrayRef createNestedArray(const TKey& key) {
-    return getOrCreate(key).to<ArrayRef>();
+    return getOrCreate(key).template to<ArrayRef>();
   }
 
   ObjectRef createNestedObject() {
@@ -102,12 +102,12 @@ class JsonDocument : public Visitable {
 
   template <typename TKey>
   ObjectRef createNestedObject(TKey* key) {
-    return getOrCreate(key).to<ObjectRef>();
+    return getOrCreate(key).template to<ObjectRef>();
   }
 
   template <typename TKey>
   ObjectRef createNestedObject(const TKey& key) {
-    return getOrCreate(key).to<ObjectRef>();
+    return getOrCreate(key).template to<ObjectRef>();
   }
 
   // MemberProxy operator[](TKey)
