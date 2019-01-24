@@ -99,20 +99,11 @@ class VariantMemberProxy
 
  private:
   FORCE_INLINE VariantRef get_impl() const {
-    return getObject().get(_key);
+    return _variant.as<ObjectRef>().get(_key);
   }
 
   FORCE_INLINE VariantRef set_impl() const {
-    return getObjectOrPromote().set(_key);
-  }
-
-  ObjectRef getObject() const {
-    return _variant.as<ObjectRef>();
-  }
-
-  ObjectRef getObjectOrPromote() const {
-    if (_variant.isNull()) return _variant.to<ObjectRef>();
-    return _variant.as<ObjectRef>();
+    return _variant.setElement(_key);
   }
 
   VariantRef _variant;

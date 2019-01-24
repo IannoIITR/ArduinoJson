@@ -281,6 +281,9 @@ class VariantRef : public VariantRefBase<VariantData>,
   typename enable_if<is_same<T, VariantRef>::value, VariantRef>::type to()
       const;
 
+  template <typename TKey>
+  FORCE_INLINE VariantRef setElement(TKey *key) const;
+
  private:
   MemoryPool *_pool;
 };
