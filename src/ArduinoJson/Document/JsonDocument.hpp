@@ -85,19 +85,20 @@ class JsonDocument : public Visitable {
   // MemberProxy operator[](TKey)
   // TKey = const std::string&, const String&
   template <typename TKey>
-  FORCE_INLINE typename enable_if<IsString<TKey>::value,
-                                  MemberProxy<VariantRef, const TKey&> >::type
-  operator[](const TKey& key) {
-    return getVariant()[key];
+  FORCE_INLINE
+      typename enable_if<IsString<TKey>::value,
+                         MemberProxy<JsonDocument&, const TKey&> >::type
+      operator[](const TKey& key) {
+    return MemberProxy<JsonDocument&, const TKey&>(*this, key);
   }
 
   // MemberProxy operator[](TKey);
   // TKey = const char*, const char[N], const __FlashStringHelper*
   template <typename TKey>
   FORCE_INLINE typename enable_if<IsString<TKey*>::value,
-                                  MemberProxy<VariantRef, TKey*> >::type
+                                  MemberProxy<JsonDocument&, TKey*> >::type
   operator[](TKey* key) {
-    return getVariant()[key];
+    return MemberProxy<JsonDocument&, TKey*>(*this, key);
   }
 
   // VariantConstRef operator[](TKey) const
@@ -122,6 +123,26 @@ class JsonDocument : public Visitable {
 
   FORCE_INLINE VariantConstRef operator[](size_t index) const {
     return getVariant()[index];
+  }
+
+  template <typename TKey>
+  FORCE_INLINE VariantRef get(TKey* key) {
+    return VariantRef(&_pool, _data.get(wrapString(key)));
+  }
+
+  template <typename TKey>
+  FORCE_INLINE VariantRef get(const TKey& key) {
+    return VariantRef(&_pool, _data.get(wrapString(key)));
+  }
+
+  template <typename TKey>
+  FORCE_INLINE VariantRef getOrCreate(TKey* key) {
+    return VariantRef(&_pool, _data.getOrCreate(wrapString(key), &_pool));
+  }
+
+  template <typename TKey>
+  FORCE_INLINE VariantRef getOrCreate(const TKey& key) {
+    return VariantRef(&_pool, _data.getOrCreate(wrapString(key), &_pool));
   }
 
  protected:
