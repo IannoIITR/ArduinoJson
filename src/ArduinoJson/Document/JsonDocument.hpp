@@ -85,9 +85,10 @@ class JsonDocument : public Visitable {
   // VariantMemberProxy operator[](TKey)
   // TKey = const std::string&, const String&
   template <typename TKey>
-  FORCE_INLINE typename enable_if<IsString<TKey>::value,
-                                  VariantMemberProxy<const TKey&> >::type
-  operator[](const TKey& key) {
+  FORCE_INLINE
+      typename enable_if<IsString<TKey>::value,
+                         VariantMemberProxy<VariantRef, const TKey&> >::type
+      operator[](const TKey& key) {
     return getVariant()[key];
   }
 
@@ -95,7 +96,7 @@ class JsonDocument : public Visitable {
   // TKey = const char*, const char[N], const __FlashStringHelper*
   template <typename TKey>
   FORCE_INLINE typename enable_if<IsString<TKey*>::value,
-                                  VariantMemberProxy<TKey*> >::type
+                                  VariantMemberProxy<VariantRef, TKey*> >::type
   operator[](TKey* key) {
     return getVariant()[key];
   }

@@ -15,7 +15,7 @@ class ObjectRef;
 
 // Forward declarations.
 class ArraySubscript;
-template <typename TKey>
+template <typename TParent, typename TKey>
 class VariantMemberProxy;
 
 template <typename TImpl>
@@ -32,15 +32,16 @@ class VariantSubscripts {
   // VariantMemberProxy operator[](TKey) const;
   // TKey = const std::string&, const String&
   template <typename TKey>
-  FORCE_INLINE typename enable_if<IsString<TKey>::value,
-                                  VariantMemberProxy<const TKey &> >::type
-  operator[](const TKey &key) const;
+  FORCE_INLINE
+      typename enable_if<IsString<TKey>::value,
+                         VariantMemberProxy<TImpl, const TKey &> >::type
+      operator[](const TKey &key) const;
   //
   // VariantMemberProxy operator[](TKey) const;
   // TKey = const char*, const char[N], const __FlashStringHelper*
   template <typename TKey>
   FORCE_INLINE typename enable_if<IsString<TKey *>::value,
-                                  VariantMemberProxy<TKey *> >::type
+                                  VariantMemberProxy<TImpl, TKey *> >::type
   operator[](TKey *key) const;
 
  private:

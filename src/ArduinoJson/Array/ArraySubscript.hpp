@@ -88,6 +88,10 @@ class ArraySubscript : public VariantOperators<ArraySubscript>,
     return get_impl().size();
   }
 
+  ObjectRef promoteToObject() const {
+    return get_impl().promoteToObject();
+  }
+
  private:
   FORCE_INLINE VariantRef get_impl() const {
     return _array.get(_index);

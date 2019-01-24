@@ -15,15 +15,15 @@
 
 namespace ARDUINOJSON_NAMESPACE {
 
-template <typename TStringRef>
+template <typename TObject, typename TKey>
 class VariantMemberProxy
-    : public VariantOperators<VariantMemberProxy<TStringRef> >,
+    : public VariantOperators<VariantMemberProxy<TObject, TKey> >,
       public Visitable {
-  typedef VariantMemberProxy<TStringRef> this_type;
+  typedef VariantMemberProxy<TObject, TKey> this_type;
 
  public:
-  FORCE_INLINE VariantMemberProxy(VariantRef variant, TStringRef key)
-      : _variant(variant), _key(key) {}
+  FORCE_INLINE VariantMemberProxy(TObject variant, TKey key)
+      : _object(variant), _key(key) {}
 
   operator VariantConstRef() const {
     return get_impl();
@@ -99,31 +99,31 @@ class VariantMemberProxy
 
  private:
   FORCE_INLINE VariantRef get_impl() const {
-    return _variant.as<ObjectRef>().get(_key);
+    return _object.as<ObjectRef>().get(_key);
   }
 
   FORCE_INLINE VariantRef set_impl() const {
-    return _variant.promoteToObject().set(_key);
+    return _object.promoteToObject().set(_key);
   }
 
-  VariantRef _variant;
-  TStringRef _key;
+  TObject _object;
+  TKey _key;
 };
 
 template <typename TImpl>
 template <typename TString>
 inline typename enable_if<IsString<TString>::value,
-                          VariantMemberProxy<const TString &> >::type
+                          VariantMemberProxy<TImpl, const TString &> >::type
     VariantSubscripts<TImpl>::operator[](const TString &key) const {
-  return VariantMemberProxy<const TString &>(*impl(), key);
+  return VariantMemberProxy<TImpl, const TString &>(*impl(), key);
 }
 
 template <typename TImpl>
 template <typename TString>
 inline typename enable_if<IsString<TString *>::value,
-                          VariantMemberProxy<TString *> >::type
+                          VariantMemberProxy<TImpl, TString *> >::type
     VariantSubscripts<TImpl>::operator[](TString *key) const {
-  return VariantMemberProxy<TString *>(*impl(), key);
+  return VariantMemberProxy<TImpl, TString *>(*impl(), key);
 }
 
 }  // namespace ARDUINOJSON_NAMESPACE
