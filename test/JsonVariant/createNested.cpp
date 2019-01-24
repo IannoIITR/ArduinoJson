@@ -14,9 +14,18 @@ TEST_CASE("JsonVariant::createNestedObject()") {
 
   SECTION("promotes to array") {
     JsonObject obj = variant.createNestedObject();
+    obj["value"] = "42";
 
     REQUIRE(variant.is<JsonArray>() == true);
+    REQUIRE(variant[0]["value"] == 42);
     REQUIRE(obj.isNull() == false);
+  }
+
+  SECTION("works on MemberProxy") {
+    JsonObject obj = variant["items"].createNestedObject();
+    obj["value"] = "42";
+
+    REQUIRE(variant["items"][0]["value"] == 42);
   }
 }
 

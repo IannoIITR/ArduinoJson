@@ -96,6 +96,10 @@ class MemberProxy : public VariantOperators<MemberProxy<TObject, TKey> >,
     return getMember().accept(visitor);
   }
 
+  FORCE_INLINE VariantRef add() const {
+    return getOrCreateMember().add();
+  }
+
   template <typename TNestedKey>
   FORCE_INLINE VariantRef get(TNestedKey *key) const {
     return getMember().get(key);
