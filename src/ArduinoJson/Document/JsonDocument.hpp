@@ -82,6 +82,16 @@ class JsonDocument : public Visitable {
     return _data;
   }
 
+  template <typename TKey>
+  ArrayRef createNestedArray(TKey* key) {
+    return getOrCreate(key).to<ArrayRef>();
+  }
+
+  template <typename TKey>
+  ArrayRef createNestedArray(const TKey& key) {
+    return getOrCreate(key).to<ArrayRef>();
+  }
+
   // MemberProxy operator[](TKey)
   // TKey = const std::string&, const String&
   template <typename TKey>

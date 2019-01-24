@@ -23,30 +23,25 @@ void setup() {
   //
   // DynamicJsonDocument  doc(200);
 
-  // Make our document be an object
-  JsonObject root = doc.to<JsonObject>();
-
   // Add values in the object
   //
-  // Most of the time, you can rely on the implicit casts.
-  // In other case, you can do root.set<long>("time", 1351824120);
-  root["sensor"] = "gps";
-  root["time"] = 1351824120;
+  doc["sensor"] = "gps";
+  doc["time"] = 1351824120;
 
   // Add an array.
   //
-  JsonArray data = root.createNestedArray("data");
+  JsonArray data = doc.createNestedArray("data");
   data.add(48.756080);
   data.add(2.302038);
 
   serializeJson(doc, Serial);
-  // This prints:
+  // The above line prints:
   // {"sensor":"gps","time":1351824120,"data":[48.756080,2.302038]}
 
   Serial.println();
 
   serializeJsonPretty(doc, Serial);
-  // This prints:
+  // The above line prints:
   // {
   //   "sensor": "gps",
   //   "time": 1351824120,
