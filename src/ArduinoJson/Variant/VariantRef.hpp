@@ -283,7 +283,7 @@ class VariantRef : public VariantRefBase<VariantData>,
 
   VariantRef add() const;
 
-  VariantRef get(size_t) const;
+  FORCE_INLINE VariantRef get(size_t) const;
 
   template <typename TKey>
   VariantRef get(TKey *) const;
