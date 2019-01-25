@@ -18,15 +18,16 @@ class ObjectShortcuts {
   // MemberProxy operator[](TKey) const;
   // TKey = const std::string&, const String&
   template <typename TKey>
-  FORCE_INLINE typename enable_if<IsString<TKey>::value,
-                                  MemberProxy<TObject, const TKey &> >::type
-  operator[](const TKey &key) const;
+  FORCE_INLINE
+      typename enable_if<IsString<TKey>::value,
+                         MemberProxy<const TObject &, const TKey &> >::type
+      operator[](const TKey &key) const;
   //
   // MemberProxy operator[](TKey) const;
   // TKey = const char*, const char[N], const __FlashStringHelper*
   template <typename TKey>
   FORCE_INLINE typename enable_if<IsString<TKey *>::value,
-                                  MemberProxy<TObject, TKey *> >::type
+                                  MemberProxy<const TObject &, TKey *> >::type
   operator[](TKey *key) const;
 
   // Creates and adds a ArrayRef.

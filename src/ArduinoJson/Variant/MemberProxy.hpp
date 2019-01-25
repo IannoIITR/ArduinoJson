@@ -21,7 +21,7 @@ class MemberProxy : public VariantOperators<MemberProxy<TObject, TKey> >,
   typedef MemberProxy<TObject, TKey> this_type;
 
  public:
-  FORCE_INLINE MemberProxy(const TObject &variant, const TKey &key)
+  FORCE_INLINE MemberProxy(TObject variant, const TKey &key)
       : _object(variant), _key(key) {}
 
   FORCE_INLINE operator VariantConstRef() const {
@@ -133,20 +133,20 @@ class MemberProxy : public VariantOperators<MemberProxy<TObject, TKey> >,
   TKey _key;
 };
 
-template <typename TImpl>
+template <typename TObject>
 template <typename TString>
 inline typename enable_if<IsString<TString>::value,
-                          MemberProxy<TImpl, const TString &> >::type
-    ObjectShortcuts<TImpl>::operator[](const TString &key) const {
-  return MemberProxy<TImpl, const TString &>(*impl(), key);
+                          MemberProxy<const TObject &, const TString &> >::type
+    ObjectShortcuts<TObject>::operator[](const TString &key) const {
+  return MemberProxy<const TObject &, const TString &>(*impl(), key);
 }
 
-template <typename TImpl>
+template <typename TObject>
 template <typename TString>
 inline typename enable_if<IsString<TString *>::value,
-                          MemberProxy<TImpl, TString *> >::type
-    ObjectShortcuts<TImpl>::operator[](TString *key) const {
-  return MemberProxy<TImpl, TString *>(*impl(), key);
+                          MemberProxy<const TObject &, TString *> >::type
+    ObjectShortcuts<TObject>::operator[](TString *key) const {
+  return MemberProxy<const TObject &, TString *>(*impl(), key);
 }
 
 }  // namespace ARDUINOJSON_NAMESPACE

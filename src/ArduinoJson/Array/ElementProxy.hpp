@@ -20,7 +20,7 @@ class ElementProxy : public VariantOperators<ElementProxy<TArray> >,
   typedef ElementProxy<TArray> this_type;
 
  public:
-  FORCE_INLINE ElementProxy(const TArray& array, size_t index)
+  FORCE_INLINE ElementProxy(TArray array, size_t index)
       : _array(array), _index(index) {}
 
   FORCE_INLINE this_type& operator=(const this_type& src) {
@@ -121,10 +121,10 @@ class ElementProxy : public VariantOperators<ElementProxy<TArray> >,
   const size_t _index;
 };
 
-template <typename TImpl>
-inline ElementProxy<TImpl> ArrayShortcuts<TImpl>::operator[](
+template <typename TArray>
+inline ElementProxy<const TArray&> ArrayShortcuts<TArray>::operator[](
     size_t index) const {
-  return ElementProxy<TImpl>(*impl(), index);
+  return ElementProxy<const TArray&>(*impl(), index);
 }
 
 }  // namespace ARDUINOJSON_NAMESPACE
