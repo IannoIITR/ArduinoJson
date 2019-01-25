@@ -21,10 +21,10 @@ class MemberProxy : public VariantOperators<MemberProxy<TObject, TKey> >,
   typedef MemberProxy<TObject, TKey> this_type;
 
  public:
-  FORCE_INLINE MemberProxy(TObject variant, TKey key)
+  FORCE_INLINE MemberProxy(const TObject &variant, const TKey &key)
       : _object(variant), _key(key) {}
 
-  operator VariantConstRef() const {
+  FORCE_INLINE operator VariantConstRef() const {
     return getMember();
   }
 

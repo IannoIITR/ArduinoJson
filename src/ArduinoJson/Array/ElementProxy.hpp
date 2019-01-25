@@ -20,7 +20,7 @@ class ElementProxy : public VariantOperators<ElementProxy<TArray> >,
   typedef ElementProxy<TArray> this_type;
 
  public:
-  FORCE_INLINE ElementProxy(TArray array, size_t index)
+  FORCE_INLINE ElementProxy(const TArray& array, size_t index)
       : _array(array), _index(index) {}
 
   FORCE_INLINE this_type& operator=(const this_type& src) {
