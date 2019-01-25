@@ -21,6 +21,11 @@ TEST_CASE("JsonDocument::operator[]") {
       REQUIRE(doc[std::string("hello")] == "world");
       REQUIRE(cdoc[std::string("hello")] == "world");
     }
+
+    SECTION("supports operator|") {
+      REQUIRE((doc["hello"] | "nope") == std::string("world"));
+      REQUIRE((doc["world"] | "nope") == std::string("nope"));
+    }
   }
 
   SECTION("array") {

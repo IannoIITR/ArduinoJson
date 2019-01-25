@@ -20,10 +20,11 @@ HEAD
 * Added the ability to create/assign a `StaticJsonDocument`/`DynamicJsonDocument` from a `JsonArray`/`JsonObject`/`JsonVariant`
 * Added `JsonDocument::isNull()`
 * Added `JsonDocument::operator[]`
-* Added `createNestedArray()` and `createNestedObject()` to `JsonDocument` and `JsonVariant`
+* Added `createNestedArray()` and `createNestedObject()` to `JsonVariant`
 * Added `ARDUINOJSON_TAB` to configure the indentation character
 * Reduced the size of the pretty JSON serializer
 * `JsonVariant` automatically promotes to `JsonObject` or `JsonArray` on write
+* `JsonDocument` now support the same operations as `JsonVariant`
 
 > ### BREAKING CHANGES
 > 
