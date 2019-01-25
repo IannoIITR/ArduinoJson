@@ -22,6 +22,10 @@ class ElementProxy;
 template <typename TData>
 class ArrayRefBase {
  public:
+  operator VariantConstRef() const {
+    return VariantConstRef(reinterpret_cast<const VariantData*>(_data));
+  }
+
   template <typename Visitor>
   FORCE_INLINE void accept(Visitor& visitor) const {
     arrayAccept(_data, visitor);

@@ -210,16 +210,15 @@ class VariantRef : public VariantRefBase<VariantData>,
     return variantSetLinkedString(_data, value);
   }
 
-  bool set(VariantConstRef value) const;
-  bool set(VariantRef value) const;
-
-  FORCE_INLINE bool set(ArrayRef array) const;
-  FORCE_INLINE bool set(ArrayConstRef array) const;
-  FORCE_INLINE bool set(const ElementProxy<ArrayRef> &) const;
-  FORCE_INLINE bool set(ObjectRef object) const;
-  FORCE_INLINE bool set(ObjectConstRef object) const;
-  template <typename TString>
-  FORCE_INLINE bool set(const MemberProxy<ObjectRef, TString> &) const;
+  // set(VariantRef)
+  // set(VariantConstRef)
+  // set(ArrayRef)
+  // set(ArrayConstRef)
+  // set(ObjectRef)
+  // set(ObjecConstRef)
+  template <typename TVariant>
+  typename enable_if<IsVisitable<TVariant>::value, bool>::type set(
+      const TVariant &value) const;
 
   // Get the variant as the specified type.
   //

@@ -61,38 +61,11 @@ inline const char *VariantData::asString() const {
   }
 }
 
-inline bool VariantRef::set(ArrayRef array) const {
-  return to<ArrayRef>().copyFrom(array);
-}
-
-inline bool VariantRef::set(ArrayConstRef array) const {
-  return to<ArrayRef>().copyFrom(array);
-}
-
-inline bool VariantRef::set(const ElementProxy<ArrayRef> &value) const {
-  return set(value.as<VariantRef>());
-}
-
-inline bool VariantRef::set(ObjectRef object) const {
-  return to<ObjectRef>().copyFrom(object);
-}
-
-inline bool VariantRef::set(ObjectConstRef object) const {
-  return to<ObjectRef>().copyFrom(object);
-}
-
-template <typename TString>
-inline bool VariantRef::set(
-    const MemberProxy<ObjectRef, TString> &value) const {
-  return set(value.template as<VariantRef>());
-}
-
-inline bool VariantRef::set(VariantConstRef value) const {
-  return variantCopyFrom(_data, value._data, _pool);
-}
-
-inline bool VariantRef::set(VariantRef value) const {
-  return variantCopyFrom(_data, value._data, _pool);
+template <typename TVariant>
+typename enable_if<IsVisitable<TVariant>::value, bool>::type VariantRef::set(
+    const TVariant &value) const {
+  VariantConstRef v = value;
+  return variantCopyFrom(_data, v._data, _pool);
 }
 
 template <typename T>

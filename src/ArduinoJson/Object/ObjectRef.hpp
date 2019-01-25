@@ -17,6 +17,10 @@ namespace ARDUINOJSON_NAMESPACE {
 template <typename TData>
 class ObjectRefBase {
  public:
+  operator VariantConstRef() const {
+    return VariantConstRef(reinterpret_cast<const VariantData*>(_data));
+  }
+
   template <typename Visitor>
   FORCE_INLINE void accept(Visitor& visitor) const {
     objectAccept(_data, visitor);
