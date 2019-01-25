@@ -67,7 +67,7 @@ class VariantData {
   }
 
   CollectionData *asArray() {
-    return type() == VALUE_IS_ARRAY ? &_content.asCollection : 0;
+    return isArray() ? &_content.asCollection : 0;
   }
 
   const CollectionData *asArray() const {
@@ -75,7 +75,7 @@ class VariantData {
   }
 
   CollectionData *asObject() {
-    return type() == VALUE_IS_OBJECT ? &_content.asCollection : 0;
+    return isObject() ? &_content.asCollection : 0;
   }
 
   const CollectionData *asObject() const {
@@ -135,7 +135,7 @@ class VariantData {
   }
 
   bool isArray() const {
-    return type() == VALUE_IS_ARRAY;
+    return _flags & VALUE_IS_ARRAY;
   }
 
   bool isBoolean() const {
@@ -158,7 +158,7 @@ class VariantData {
   }
 
   bool isObject() const {
-    return type() == VALUE_IS_OBJECT;
+    return _flags & VALUE_IS_OBJECT;
   }
 
   bool isNull() const {
@@ -292,20 +292,20 @@ class VariantData {
   }
 
   VariantData *get(size_t index) const {
-    if (type() != VALUE_IS_ARRAY) return 0;
+    if (!isArray()) return 0;
     return _content.asCollection.get(index);
   }
 
   template <typename TKey>
   VariantData *get(TKey key) const {
-    if (type() != VALUE_IS_OBJECT) return 0;
+    if (!isObject()) return 0;
     return _content.asCollection.get(key);
   }
 
   template <typename TKey>
   VariantData *getOrCreate(TKey key, MemoryPool *pool) {
     if (isNull()) toObject();
-    if (type() != VALUE_IS_OBJECT) return 0;
+    if (!isObject()) return 0;
     VariantData *var = _content.asCollection.get(key);
     if (var) return var;
     return _content.asCollection.add(key, pool);
@@ -313,7 +313,7 @@ class VariantData {
 
   VariantData *add(MemoryPool *pool) {
     if (isNull()) toArray();
-    if (type() != VALUE_IS_ARRAY) return 0;
+    if (!isArray()) return 0;
     return _content.asCollection.add(pool);
   }
 
