@@ -287,14 +287,12 @@ class VariantData {
   }
 
   VariantData *get(size_t index) const {
-    if (!isArray()) return 0;
-    return _content.asCollection.get(index);
+    return isArray() ? _content.asCollection.get(index) : 0;
   }
 
   template <typename TKey>
   VariantData *get(TKey key) const {
-    if (!isObject()) return 0;
-    return _content.asCollection.get(key);
+    return isObject() ? _content.asCollection.get(key) : 0;
   }
 
   template <typename TKey>
