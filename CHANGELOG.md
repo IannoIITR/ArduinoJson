@@ -25,6 +25,7 @@ HEAD
 * Reduced the size of the pretty JSON serializer
 * `JsonVariant` automatically promotes to `JsonObject` or `JsonArray` on write
 * `JsonDocument` now support the same operations as `JsonVariant`
+* Fixed example `JsonHttpClient.ino`
 
 > ### BREAKING CHANGES
 > 
