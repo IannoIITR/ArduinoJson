@@ -286,16 +286,16 @@ class VariantRef : public VariantRefBase<VariantData>,
   FORCE_INLINE VariantRef get(size_t) const;
 
   template <typename TKey>
-  VariantRef get(TKey *) const;
+  FORCE_INLINE VariantRef get(TKey *) const;
 
   template <typename TKey>
-  VariantRef get(const TKey &) const;
+  FORCE_INLINE VariantRef get(const TKey &) const;
 
   template <typename TKey>
-  VariantRef getOrCreate(TKey *) const;
+  FORCE_INLINE VariantRef getOrCreate(TKey *) const;
 
   template <typename TKey>
-  VariantRef getOrCreate(const TKey &) const;
+  FORCE_INLINE VariantRef getOrCreate(const TKey &) const;
 
  private:
   MemoryPool *_pool;
