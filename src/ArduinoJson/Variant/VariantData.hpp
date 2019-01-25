@@ -142,6 +142,10 @@ class VariantData {
     return type() == VALUE_IS_BOOLEAN;
   }
 
+  bool isCollection() const {
+    return _flags & COLLECTION_MASK;
+  }
+
   bool isInteger() const {
     return type() == VALUE_IS_POSITIVE_INTEGER ||
            type() == VALUE_IS_NEGATIVE_INTEGER;
@@ -275,20 +279,11 @@ class VariantData {
   }
 
   size_t nesting() const {
-    switch (type()) {
-      case VALUE_IS_OBJECT:
-      case VALUE_IS_ARRAY:
-        return _content.asCollection.nesting();
-      default:
-        return 0;
-    }
+    return isCollection() ? _content.asCollection.nesting() : 0;
   }
 
   size_t size() const {
-    if (type() == VALUE_IS_OBJECT || type() == VALUE_IS_ARRAY)
-      return _content.asCollection.size();
-    else
-      return 0;
+    return isCollection() ? _content.asCollection.size() : 0;
   }
 
   VariantData *get(size_t index) const {
