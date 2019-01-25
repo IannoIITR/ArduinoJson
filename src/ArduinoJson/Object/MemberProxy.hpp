@@ -15,13 +15,13 @@
 
 namespace ARDUINOJSON_NAMESPACE {
 
-template <typename TObject, typename TKey>
-class MemberProxy : public VariantOperators<MemberProxy<TObject, TKey> >,
+template <typename TObject, typename TString>
+class MemberProxy : public VariantOperators<MemberProxy<TObject, TString> >,
                     public Visitable {
-  typedef MemberProxy<TObject, TKey> this_type;
+  typedef MemberProxy<TObject, TString> this_type;
 
  public:
-  FORCE_INLINE MemberProxy(TObject variant, const TKey &key)
+  FORCE_INLINE MemberProxy(TObject variant, TString key)
       : _object(variant), _key(key) {}
 
   FORCE_INLINE operator VariantConstRef() const {
@@ -130,7 +130,7 @@ class MemberProxy : public VariantOperators<MemberProxy<TObject, TKey> >,
   }
 
   TObject _object;
-  TKey _key;
+  TString _key;
 };
 
 template <typename TObject>
