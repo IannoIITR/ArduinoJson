@@ -144,7 +144,8 @@ inline VariantRef VariantRef::get(TKey *key) const {
 }
 
 template <typename TKey>
-inline VariantRef VariantRef::get(const TKey &key) const {
+inline typename enable_if<IsString<TKey>::value, VariantRef>::type
+VariantRef::get(const TKey &key) const {
   return VariantRef(_pool, _data != 0 ? _data->get(wrapString(key)) : 0);
 }
 

@@ -288,8 +288,11 @@ class VariantRef : public VariantRefBase<VariantData>,
   template <typename TKey>
   FORCE_INLINE VariantRef get(TKey *) const;
 
+  // get(const char*)
+  // get(const __FlashStringHelper*)
   template <typename TKey>
-  FORCE_INLINE VariantRef get(const TKey &) const;
+  FORCE_INLINE typename enable_if<IsString<TKey>::value, VariantRef>::type get(
+      const TKey &) const;
 
   template <typename TKey>
   FORCE_INLINE VariantRef getOrCreate(TKey *) const;

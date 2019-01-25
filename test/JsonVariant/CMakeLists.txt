@@ -16,6 +16,7 @@ add_executable(JsonVariantTests
 	or.cpp
 	set.cpp
 	subscript.cpp
+	types.cpp
 	undefined.cpp
 )
 
