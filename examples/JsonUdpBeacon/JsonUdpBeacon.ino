@@ -5,10 +5,10 @@
 // This example shows how to send a JSON document to a UDP socket.
 // At regular interval, it sends a UDP packet that contains the status of
 // analog and digital pins.
-// The JSON document looks like that:
+// It looks like that:
 // {
-//   "analog": [ 0, 1, 2, 3, 4, 5 ],
-//   "digital": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
+//   "analog": [0,76,123,158,192,205],
+//   "digital": [1,1,0,0,0,0,0,0,0,0,1,1,0,0]
 // }
 //
 // If you want to test this program, you need to be able to receive the UDP
