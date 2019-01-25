@@ -16,8 +16,8 @@
 #include "ArduinoJson/Array/ArrayImpl.hpp"
 #include "ArduinoJson/Array/ElementProxy.hpp"
 #include "ArduinoJson/Collection/CollectionImpl.hpp"
+#include "ArduinoJson/Object/MemberProxy.hpp"
 #include "ArduinoJson/Object/ObjectImpl.hpp"
-#include "ArduinoJson/Variant/MemberProxy.hpp"
 #include "ArduinoJson/Variant/VariantAsImpl.hpp"
 #include "ArduinoJson/Variant/VariantImpl.hpp"
 

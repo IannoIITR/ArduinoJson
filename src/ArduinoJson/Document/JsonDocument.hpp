@@ -10,7 +10,7 @@
 #include "../Variant/VariantTo.hpp"
 
 #include "../Array/ElementProxy.hpp"
-#include "../Variant/MemberProxy.hpp"
+#include "../Object/MemberProxy.hpp"
 
 namespace ARDUINOJSON_NAMESPACE {
 
