@@ -135,7 +135,7 @@ class VariantData {
   }
 
   bool isArray() const {
-    return _flags & VALUE_IS_ARRAY;
+    return (_flags & VALUE_IS_ARRAY) != 0;
   }
 
   bool isBoolean() const {
@@ -143,7 +143,7 @@ class VariantData {
   }
 
   bool isCollection() const {
-    return _flags & COLLECTION_MASK;
+    return (_flags & COLLECTION_MASK) != 0;
   }
 
   bool isInteger() const {
@@ -157,12 +157,11 @@ class VariantData {
   }
 
   bool isString() const {
-    return (type() == VALUE_IS_LINKED_STRING ||
-            type() == VALUE_IS_OWNED_STRING);
+    return type() == VALUE_IS_LINKED_STRING || type() == VALUE_IS_OWNED_STRING;
   }
 
   bool isObject() const {
-    return _flags & VALUE_IS_OBJECT;
+    return (_flags & VALUE_IS_OBJECT) != 0;
   }
 
   bool isNull() const {
